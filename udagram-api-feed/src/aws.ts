@@ -5,7 +5,13 @@ import { GetObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
 import { config } from './config/config';
 
 // Configure AWS
-const credentials = fromIni({ profile: config.aws_profile });
+const credentials = config.aws_profile
+  ? fromIni({ profile: config.aws_profile })
+  : {
+      accessKeyId: config.aws_access_key_id,
+      secretAccessKey: config.aws_secret_access_key,
+      sessionToken: config.aws_session_token
+    };
 
 // Create S3 client
 export const s3Client = new S3Client({
