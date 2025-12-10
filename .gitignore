@@ -43,11 +43,7 @@ venv/
 
 .env
 .angular/
-api-feed-deployment.yaml
-api-user-deployment.yaml
 aws-secret.yaml
 env-configmap.yaml
 env-secret.yaml
-frontend-deployment.yaml
 kubectl.exe
-reverseproxy-deployment.yaml

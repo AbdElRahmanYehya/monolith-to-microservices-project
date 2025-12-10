@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: udagram-frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: udagram-frontend
+  template:
+    metadata:
+      labels:
+        app: udagram-frontend
+    spec:
+      containers:
+        - name: frontend
+          image: aaboelella/udagram-frontend:v1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          env:
+            - name: API_HOST
+              value: "http://udagram-reverseproxy"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: udagram-frontend
+spec:
+  type: LoadBalancer
+  selector:
+    app: udagram-frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80

@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: udagram-api-user
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: udagram-api-user
+  template:
+    metadata:
+      labels:
+        app: udagram-api-user
+    spec:
+      containers:
+        - name: api-user
+          image: aaboelella/udagram-api-user:v1
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: env-config
+            - secretRef:
+                name: env-secret
+            - secretRef:
+                name: aws-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-user
+spec:
+  type: ClusterIP
+  selector:
+    app: udagram-api-user
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
